@@ -3,6 +3,7 @@
     <head>
         <title>instructors</title>
         <link rel="stylesheet" href="/style.css">
+        <script src="js/instructors.js"></script>
     </head>
     <body>
         <ul>
@@ -19,33 +20,9 @@
                     <th>Last Name</th>
                 </tr>
             </thead>
-            <tbody>
-                <tr>
-                    <td>John</td>
-                    <td>A</td>
-                    <td>Doe</td>
-                </tr>
-                <tr>
-                    <td>Jane</td>
-                    <td>B</td>
-                    <td>Doe</td>
-                </tr>
-                <tr>
-                    <td>Billy</td>
-                    <td>B</td>
-                    <td>Smith</td>
-                </tr>
-                <tr>
-                    <td>George</td>
-                    <td>X</td>
-                    <td>Jones</td>
-                </tr>
-                <tr>
-                    <td>Sarah</td>
-                    <td>S</td>
-                    <td>Smith</td>
-                </tr>
+            <tbody id='table-body'>
             </tbody>
         </table>
+        <script>loadInstructors()</script>
     </body>
 </html>
