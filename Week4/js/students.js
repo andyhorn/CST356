@@ -13,10 +13,10 @@ function displayStudents(list) {
     var tableHtml = ""
 
     for (var i = 0; i < list.length; i++) {
-        let id = list[i].id
-        let email = list[i].email
+        var id = list[i].id
+        var email = list[i].email
 
-        tableHtml += `<tr><td>${id}</td><td>${email}</td></tr>`
+        tableHtml += '<tr><td>' + id + '</td><td>' + email + '</td></tr>'
     }
 
     document.getElementById('table-body').innerHTML = tableHtml

@@ -10,14 +10,14 @@ function loadInstructors() {
 }
 
 function displayInstructors(list) {
-    let tableHtml = ""
+    var tableHtml = ""
 
-    for (let i = 0; i < list.length; i++) {
-        let firstName = list[i].firstName
-        let middleInitial = list[i].middleInitial
-        let lastName = list[i].lastName
+    for (var i = 0; i < list.length; i++) {
+        var firstName = list[i].firstName
+        var middleInitial = list[i].middleInitial
+        var lastName = list[i].lastName
 
-        tableHtml += `<tr><td>${firstName}</td><td>${middleInitial}</td><td>${lastName}</td></tr>`
+        tableHtml += '<tr><td>' + firstName + '</td><td>' + middleInitial + '</td><td>' + lastName + '</td></tr>'
     }
 
     document.getElementById('table-body').innerHTML = tableHtml

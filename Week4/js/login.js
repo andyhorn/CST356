@@ -1,10 +1,10 @@
-const USERNAME = 'username'
-const PASSWORD = 'password'
-const U_ERR = 'username-error'
-const P_ERR = 'password-error'
+var USERNAME = 'username'
+var PASSWORD = 'password'
+var U_ERR = 'username-error'
+var P_ERR = 'password-error'
 
 function setVisible(id, isVisible) {
-    let item = document.getElementById(id)
+    var item = document.getElementById(id)
     item.style.visibility = isVisible ? 'visible' : 'hidden'
 }
 
