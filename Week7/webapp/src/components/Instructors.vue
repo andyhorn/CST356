@@ -79,6 +79,7 @@ export default {
     },
     mounted() {
         this.apiUrl = `http://${this.apiServer}/api/instructor`;
+        console.log(`api url: ${this.apiUrl}`);
         this.getInstructors();
     },
     methods: {
