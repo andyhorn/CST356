@@ -23,12 +23,23 @@ services:
     image: postgres
     container_name: dbserver
     environment: 
+      - POSTGRES_PASSWORD=
       - POSTGRES_HOST_AUTH_METHOD=trust
     volumes:
       - db_data:/var/lib/postgresql/data
     ports:
-      - 5432:5432
+      - "5432:5432"
+
+  pgadmin:
+    image: dpage/pgadmin4
+    container_name: pgadmin
+    environment: 
+      - PGADMIN_DEFAULT_EMAIL=user@domain.com
+      - PGADMIN_DEFAULT_PASSWORD=SuperSecret
+    ports:
+      - "8000:80"
+    depends_on:
+      - dbserver
  
 volumes:
   db_data:
-    external: true

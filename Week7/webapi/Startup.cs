@@ -24,7 +24,11 @@ namespace webapi
 
             services.AddHttpClient();
             
-            services.AddCors();
+            services.AddCors(o => o.AddDefaultPolicy(builder => {
+                builder.AllowAnyHeader()
+                    .AllowAnyMethod()
+                    .AllowAnyOrigin();
+            }));
             
             services.AddDbContext<SchoolContext>(options =>
                 options.UseNpgsql(Configuration.GetConnectionString("SchoolDatabase")));
@@ -43,6 +47,7 @@ namespace webapi
                 .AllowAnyMethod()
                 .AllowAnyHeader()
             );
+            // app.UseCors();
 
             // app.UseHttpsRedirection();
 

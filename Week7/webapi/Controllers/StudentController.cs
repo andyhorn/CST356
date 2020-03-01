@@ -1,6 +1,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using Database;
+using Microsoft.AspNetCore.Cors;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
@@ -12,17 +13,28 @@ namespace webapi.Controllers
     public class StudentController : ControllerBase
     {
         private readonly SchoolContext _dbContext;
-        public StudentController(SchoolContext dbContext)
+        private readonly ILogger<StudentController> _logger;
+        public StudentController(ILogger<StudentController> logger, SchoolContext dbContext)
         {
             _dbContext = dbContext;
+            _logger = logger;
         }
 
         // GET
         [HttpGet]
         public ActionResult<List<Student>> GetAllStudents()
         {
-            var list = _dbContext.Student.ToList();
-            return Ok(list);
+            try
+            {
+                var list = _dbContext.Student.ToList();
+                return Ok(list);
+            }
+            catch (System.Exception e)
+            {
+                _logger.LogError(e.Message);
+                return new StatusCodeResult(StatusCodes.Status500InternalServerError);
+            }
+            
         }
 
         // POST
