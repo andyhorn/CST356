@@ -1,0 +1,45 @@
+version: '3'
+services:
+
+  webapp:
+    build: ./webapp
+    image: andyhorn/cst356:week8-webapp
+    container_name: webapp
+    ports:
+     - "8080:80"
+    depends_on:
+      - webapi
+
+  webapi:
+    build: ./webapi
+    image: andyhorn/cst356:week8-webapi
+    container_name: webapi
+    ports:
+     - "8081:80"
+    depends_on:
+      - dbserver
+
+  dbserver:
+    image: postgres
+    container_name: dbserver
+    environment: 
+      - POSTGRES_PASSWORD=
+      - POSTGRES_HOST_AUTH_METHOD=trust
+    volumes:
+      - db_data:/var/lib/postgresql/data
+    ports:
+      - "5432:5432"
+
+  pgadmin:
+    image: dpage/pgadmin4
+    container_name: pgadmin
+    environment: 
+      - PGADMIN_DEFAULT_EMAIL=user@domain.com
+      - PGADMIN_DEFAULT_PASSWORD=SuperSecret
+    ports:
+      - "8000:80"
+    depends_on:
+      - dbserver
+ 
+volumes:
+  db_data:
