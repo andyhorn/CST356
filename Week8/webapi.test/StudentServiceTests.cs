@@ -1,5 +1,6 @@
 using System.Collections.Generic;
 using System.Linq;
+using System.Threading.Tasks;
 using FakeItEasy;
 using NUnit.Framework;
 
@@ -14,6 +15,99 @@ public class ProductServiceTests
         _studentRepository = A.Fake<IStudentRepository>();
 
         _studentService = new StudentService(_studentRepository);
+    }
+
+    [Test]
+    public async Task HandlesDeleteStudentFailure()
+    {
+        // Arrange
+        A.CallTo(() => _studentRepository.DeleteStudentAsync(A<long>.Ignored))
+            .Returns(false);
+
+        // Act
+        var result = await _studentService.DeleteStudentAsync(A.Dummy<long>());
+
+        // Assert
+        A.CallTo(() => _studentRepository.DeleteStudentAsync(A<long>.Ignored)).MustHaveHappenedOnceExactly();
+        Assert.IsFalse(result);
+    }
+
+    [Test]
+    public async Task DeleteStudent()
+    {
+        // Arrange
+        A.CallTo(() => _studentRepository.DeleteStudentAsync(A<long>.Ignored))
+            .Returns(true);
+
+        // Act
+        var result = await _studentService.DeleteStudentAsync(A.Dummy<long>());
+
+        // Assert
+        A.CallTo(() => _studentRepository.DeleteStudentAsync(A<long>.Ignored)).MustHaveHappenedOnceExactly();
+        Assert.IsTrue(result);
+    }
+
+    [Test]
+    public async Task HandlesCreateStudentFailure()
+    {
+        // Arrange
+        A.CallTo(() => _studentRepository.CreateStudentAsync(A<Student>.Ignored))
+            .Returns(false);
+
+        // Act
+        var result = await _studentService.CreateStudentAsync(A.Dummy<Student>());
+
+        // Assert
+        A.CallTo(() => _studentRepository.CreateStudentAsync(A<Student>.Ignored)).MustHaveHappenedOnceExactly();
+        Assert.IsFalse(result);
+    }
+
+    [Test]
+    public async Task CreateStudent()
+    {
+        // Arrange
+        A.CallTo(() => _studentRepository.CreateStudentAsync(A<Student>.Ignored))
+            .Returns(true);
+
+        // Act
+        var result = await _studentService.CreateStudentAsync(A.Dummy<Student>());
+
+        // Assert
+        A.CallTo(() => _studentRepository.CreateStudentAsync(A<Student>.Ignored)).MustHaveHappenedOnceExactly();
+        Assert.IsTrue(result);
+    }
+
+    [Test]
+    public void HandlesInvalidId()
+    {
+        // Arrange
+        A.CallTo(() => _studentRepository.GetById(A<long>.Ignored))
+            .Returns(null);
+
+        // Act
+        var student = _studentService.GetById(A.Dummy<long>());
+
+        // Assert
+        A.CallTo(() => _studentRepository.GetById(A<long>.Ignored)).MustHaveHappenedOnceExactly();
+        Assert.IsNull(student);
+    }
+
+    [Test]
+    public void ReturnsStudentWithValidId()
+    {
+        // Arrange
+        A.CallTo(() => _studentRepository.GetById(A<long>.Ignored))
+            .Returns(new Student
+            {
+                StudentId = A.Dummy<long>(),
+                EmailAddress = "test@test.com"
+            });
+
+        // Act
+        var student = _studentService.GetById(A.Dummy<long>());
+
+        // Assert
+        A.CallTo(() => _studentRepository.GetById(A<long>.Ignored)).MustHaveHappenedOnceExactly();
     }
 
     [Test]

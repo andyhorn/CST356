@@ -1,4 +1,5 @@
 using System.Collections.Generic;
+using System.Threading.Tasks;
 
 public class StudentService : IStudentService
 {
@@ -49,5 +50,17 @@ public class StudentService : IStudentService
         };
 
         return viewModel;
+    }
+
+    public async Task<bool> CreateStudentAsync(Student student)
+    {
+        var result = await _studentRepository.CreateStudentAsync(student);
+        return result;
+    }
+
+    public async Task<bool> DeleteStudentAsync(long studentId)
+    {
+        var result = await _studentRepository.DeleteStudentAsync(studentId);
+        return result;
     }
 }

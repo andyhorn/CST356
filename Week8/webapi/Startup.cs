@@ -44,12 +44,12 @@ namespace webapi
                 app.UseDeveloperExceptionPage();
             }
             
-            app.UseCors(builder => builder
-                .AllowAnyOrigin()
-                .AllowAnyMethod()
-                .AllowAnyHeader()
-            );
-            // app.UseCors();
+            // app.UseCors(builder => builder
+            //     .AllowAnyOrigin()
+            //     .AllowAnyMethod()
+            //     .AllowAnyHeader()
+            // );
+            app.UseCors();
 
             // app.UseHttpsRedirection();
 

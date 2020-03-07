@@ -1,7 +1,5 @@
 using System.Collections.Generic;
-using System.Linq;
-using Database;
-using Microsoft.AspNetCore.Cors;
+using System.Threading.Tasks;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
@@ -12,12 +10,10 @@ namespace webapi.Controllers
     [ApiController]
     public class StudentController : ControllerBase
     {
-        // private readonly SchoolContext _dbContext;
         private readonly IStudentService _studentService;
         private readonly ILogger<StudentController> _logger;
         public StudentController(ILogger<StudentController> logger, IStudentService studentService)
         {
-            // _dbContext = dbContext;
             _studentService = studentService;
             _logger = logger;
         }
@@ -28,10 +24,8 @@ namespace webapi.Controllers
         {
             try
             {
-                // var list = _dbContext.Student.ToList();
                 var students = _studentService.GetAllStudents();
                 return students;
-                // return Ok(list);
             }
             catch (System.Exception e)
             {
@@ -41,30 +35,42 @@ namespace webapi.Controllers
             
         }
 
-        // // POST
-        // [HttpPost]
-        // public ActionResult<StudentViewModel> CreateStudent(Student student)
-        // {
-        //     // _dbContext.Student.Add(student);
-        //     // _dbContext.SaveChanges();
+        // POST
+        [HttpPost]
+        public async Task<ActionResult<StudentViewModel>> CreateStudent(Student student)
+        {
+            var created = await _studentService.CreateStudentAsync(student);
 
-        //     return StatusCode(StatusCodes.Status201Created);
-        // }
+            if (created)
+            {
+                return StatusCode(StatusCodes.Status201Created);
+            }
 
-        // // DELETE
-        // [HttpDelete("{studentId}")]
-        // public ActionResult DeleteStudent(long studentId) 
-        // {
-        //     var student = new Student
-        //     {
-        //         StudentId = studentId
-        //     };
+            return BadRequest(new {
+                Error = "Unable to create user"
+            });
+        }
 
-        //     _dbContext.Attach(student);
-        //     _dbContext.Remove(student);
-        //     _dbContext.SaveChanges();
+        // DELETE
+        [HttpDelete]
+        [Route("{studentId}")]
+        public async Task<ActionResult> DeleteStudent(long studentId) 
+        {
+            var student = new Student
+            {
+                StudentId = studentId
+            };
 
-        //     return Ok();
-        // }
+            var deleted = await _studentService.DeleteStudentAsync(studentId);
+
+            if (deleted)
+            {
+                return NoContent();
+            }
+
+            return BadRequest(new {
+                Error = "Unable to delete student"
+            });
+        }
     }
 }
